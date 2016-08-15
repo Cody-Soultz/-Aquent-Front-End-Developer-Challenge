@@ -1,10 +1,21 @@
-angular.module('myApp', [])
-.controller('mainCtr', function($http,$scope) {
-	$http.get("http://private-a73e-aquentuxsociety.apiary-mock.com/members")
-	.then(function(response){
+var app = angular.module('myApp', []);
+
+app.factory('getterService', function($http){
+	return {
+		async: function() {
+			return $http.get("http://private-a73e-aquentuxsociety.apiary-mock.com/members");
+		}
+	};
+});
+
+app.controller('mainCtr', function(getterService,$scope) {
+	$scope.READY = false;
+	getterService.async().then(function(response){
+		//response.data=response.data | orderBy : 'surname';
 		$scope.data=response.data;
-	}, function(response){
-		$scope.data="Something went wrong";
+		$scope.READY = true;
+	}, function(error){
+		$scope.data="Something went wrong " + error;
 	});
 	
 	$scope.setSelected = function(person){
