@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-cloak>
+	<head>
+		<meta charset="UTF-8">
+		
+		<!-- If IE use the latest rendering engine -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		 
+		<!-- Set the page to the width of the device and set the zoon level -->
+		<meta name="viewport" content="width = device-width, initial-scale = 1">
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		
+		<title>Front End Challange</title>
+		
+		<style>
+		[ng\:cloak], [ng-cloak], .ng-cloak {
+			display: none;
+		}
+		.thick {
+			font-weight: bold;
+		}
+		</style>
+	</head>
+	
+	<body>
+		<div class="container-fluid" ng-controller="mainCtr">
+		
+			<div class="page-header">
+				<h1>UX Society Members</h1>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="input-group">
+						<div class="input-group-btn search-panel">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<span id="search_concept">Filter by</span> <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+							  <li><a href="#contains">Contains</a></li>
+							  <li><a href="#its_equal">It's equal</a></li>
+							  <li><a href="#greather_than">Greather than ></a></li>
+							  <li><a href="#less_than">Less than < </a></li>
+							  <li class="divider"></li>
+							  <li><a href="#all">Anything</a></li>
+							</ul>
+						</div>
+						<input type="hidden" name="search_param" value="all" id="search_param">         
+						<input type="text" class="form-control" name="x" placeholder="Search term...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+						</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-sm-push-6 col-md-push-9">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h4>Name</h4>
+						</div>
+						<div class="panel-body">Stuff</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-9 col-md-9 col-sm-6 col-xs-12 col-sm-pull-6 col-md-pull-3">
+					<div>
+						<table class="table table-responsive table-bordered table-striped table-hover">
+							<thead>
+								<tr>
+									<tr>
+										<th class="col-lg-3 col-md-3 col-sm-2 col-xs-4 text-center">Name</th>
+										<th class="col-lg-3 col-md-3 col-sm-2 col-xs-4 text-center">Occupation</th>
+										<th class="col-lg-3 col-md-3 col-sm-2 col-xs-4 text-center">Company</th>
+									</tr>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="person in data | orderBy : 'surname'" ng-click="setSelected(person)">
+									<td class="col-lg-3 col-md-3 col-sm-2 col-xs-4">{{person.firstName + ' ' + person.surname}}</td>
+									<td class="col-lg-3 col-md-3 col-sm-2 col-xs-4">{{person.occupation}}</td>
+									<td class="col-lg-3 col-md-3 col-sm-2 col-xs-4">{{person.company}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>		
+			</div>
+			
+			<!-- Pagination -->
+			<div class="row">
+				<div class=col-md-9 col-sm-6 col-xs-12>
+					<nav>
+					  <ul class="pagination">
+						<li>
+						  <a href="#" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						  </a>
+						</li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li>
+						  <a href="#" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						  </a>
+						</li>
+					  </ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="js/mainCtr.js"></script>
+	</body>
+</html>
