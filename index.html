@@ -59,24 +59,30 @@
 							<div ng-show="personSelected">
 								<div class="top-buffer">
 									<table class="table table-bordered table-striped">
-										<thead>
-											<tr>
-												<th class="text-center col-xs-3">Trait</th>
-												<th class="text-center col-xs-9">Value</th>
-											</tr>
-										</thead>
 										<tbody class="text-left">
 											<tr>
-												<td>Gender</td>
-												<td>{{selectedGender}}</td>
+												<td class="col-xs-3">Gender</td>
+												<td class="col-xs-9">{{personSelected.gender}}</td>
 											</tr>
 											<tr>
 												<td>Email</td>
-												<td>{{selectedEmail}}</td>
+												<td>{{personSelected.email}}</td>
 											</tr>
 											<tr>
 												<td>Country</td>
-												<td>{{selectedCountry}}</td>
+												<td>{{personSelected.country}}</td>
+											</tr>
+											<tr>
+												<td>Occupation</td>
+												<td>{{personSelected.occupation}}</td>
+											</tr>
+											<tr>
+												<td>Company</td>
+												<td>{{personSelected.company}}</td>
+											</tr>
+											<tr>
+												<td>Motto</td>
+												<td>{{personSelected.motto}}</td>
 											</tr>
 										</tbody>
 									</table>
