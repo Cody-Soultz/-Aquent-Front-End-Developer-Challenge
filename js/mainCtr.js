@@ -10,6 +10,12 @@ app.factory('getterService', function($http){
 
 app.controller('mainCtr', function(getterService,$scope) {
 	$scope.READY = false;
+	$scope.personSelected=false;
+	$scope.selectedName="Please select a name";
+	$scope.imgSource="img/defaultprofile.jpg";
+	$scope.selectedGender="";
+	$scope.selectedEmail="";
+	$scope.selectedCountry="";
 	getterService.async().then(function(response){
 		//response.data=response.data | orderBy : 'surname';
 		$scope.data=response.data;
@@ -20,5 +26,11 @@ app.controller('mainCtr', function(getterService,$scope) {
 	
 	$scope.setSelected = function(person){
 		console.log(person.firstName + ' ' + person.surname + ' was clicked');
+		$scope.personSelected=true;
+		$scope.selectedName=person.firstName + ' ' + person.surname;
+		$scope.imgSource=person.portrait;
+		$scope.selectedGender=person.gender;
+		$scope.selectedEmail=person.email;
+		$scope.selectedCountry=person.country;
 	}
 });
