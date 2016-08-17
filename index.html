@@ -8,9 +8,12 @@
 		 
 		<!-- Set the page to the width of the device and set the zoon level -->
 		<meta name="viewport" content="width = device-width, initial-scale = 1">
-		<link rel="stylesheet" type="text/css" href="css/customCSS.css">
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-				
+		<link rel="stylesheet" type="text/css" href="css/customCSS.css">
+		
+		<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+		
 		<title>Front End Challange</title>
 		
 		
@@ -31,18 +34,16 @@
 								<span id="search_concept">Filter by</span> <span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu" role="menu">
-							  <li><a href="#contains">Contains</a></li>
-							  <li><a href="#its_equal">It's equal</a></li>
-							  <li><a href="#greather_than">Greather than ></a></li>
-							  <li><a href="#less_than">Less than < </a></li>
+							  <li><a ng-click="changeFilter('Name')">Name</a></li>
+							  <li><a ng-click="changeFilter('Occupation')">Occupation</a></li>
+							  <li><a ng-click="changeFilter('Company')">Company</a></li>
 							  <li class="divider"></li>
-							  <li><a href="#all">Anything</a></li>
+							  <li><a ng-click="changeFilter('All')">All</a></li>
 							</ul>
-						</div>
-						<input type="hidden" name="search_param" value="all" id="search_param">         
-						<input type="text" class="form-control" name="x" placeholder="Search term...">
+						</div>         
+						<input type="text" class="form-control" ng-model="search_param" placeholder="Search term...">
 						<span class="input-group-btn">
-							<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+							<a class="btn btn-default disabled"><span class="glyphicon glyphicon-search"></span></a>
 						</span>
 					</div>
 				</div>
@@ -93,22 +94,54 @@
 				</div>
 				
 				<div class="col-lg-8 col-md-7 col-sm-6 col-xs-12 col-sm-pull-6 col-md-pull-5 col-lg-pull-4">
-					<table class="table table-bordered table-striped table-hover table-condensed">
+					<table class="table table-bordered table-striped table-hover table-condensed no-bottom-buffer">
 						<thead>
 							<tr>
-								<th class="col-sm-2 text-center">Name</th>
-								<th class="col-sm-5 text-center">Occupation</th>
-								<th class="col-sm-5 text-center">Company</th>
+								<th class="col-sm-2 text-center" ng-click="sortBy('surname')">
+									<span style="cursor:pointer">Name <span class="glyphicon" ng-class="{'glyphicon-sort':ordering!=='surname','glyphicon-sort-by-alphabet':(ordering==='surname'&&!reverse),'glyphicon-sort-by-alphabet-alt':(ordering==='surname'&&reverse)}"></span></span>
+								</th>
+								<th class="col-sm-5 text-center" ng-click="sortBy('occupation')">
+									<span style="cursor:pointer">Occupation <span class="glyphicon" ng-class="{'glyphicon-sort':ordering!=='occupation','glyphicon-sort-by-alphabet':(ordering==='occupation'&&!reverse),'glyphicon-sort-by-alphabet-alt':(ordering==='occupation'&&reverse)}"></span></span>
+								</th>
+								<th class="col-sm-5 text-center" ng-click="sortBy('company')">
+									<span style="cursor:pointer">Company <span class="glyphicon" ng-class="{'glyphicon-sort':ordering!=='company','glyphicon-sort-by-alphabet':(ordering==='company'&&!reverse),'glyphicon-sort-by-alphabet-alt':(ordering==='company'&&reverse)}"></span></span>
+								</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="person in data | orderBy : 'surname'" ng-click="setSelected(person)">
-								<td>{{person.firstName + ' ' + person.surname}}</td>
-								<td>{{person.occupation}}</td>
-								<td>{{person.company}}</td>
-							</tr>
+							<span ng-repeat="person in data | filter:search | orderBy : ordering : reverse as filteredList">	
+								<tr ng-repeat="person in filteredList | limitTo:itemsPerPage:beginAt" ng-click="setSelected(person)" ng-class="{active: person.id===personSelected.id}" style="cursor:pointer">
+									<td>{{person.firstName + ' ' + person.surname + data.length}}</td>
+									<td>{{person.occupation}}</td>
+									<td>{{person.company}}</td>
+								</tr>
+							</span>
 						</tbody>
 					</table>
+					
+					<!-- Pagination -->
+					<div class="text-center no-top-buffer" ng-show="READY">
+						<nav>
+							<ul class="pagination pagination-lg">
+								<li ng-class="{disabled: beginAt===0}">
+									<a ng-click="previous()" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li ng-class="{disabled: (beginAt+itemsPerPage)>=data.length}">
+									<a ng-click="next()" aria-label="Next">
+										<span aria-hidden="true">&raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					
 					<div class="text-center text-info" ng-show="!READY">
 						<h2>
 							LOADING 
@@ -116,31 +149,6 @@
 						</h2>
 					</div>
 				</div>		
-			</div>
-			
-			<!-- Pagination -->
-			<div class="row">
-				<div class="col-md-9 col-sm-6 col-xs-12 text-center">
-					<nav>
-					  <ul class="pagination">
-						<li>
-						  <a href="#" aria-label="Previous">
-							<span aria-hidden="true">&laquo;</span>
-						  </a>
-						</li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li>
-						  <a href="#" aria-label="Next">
-							<span aria-hidden="true">&raquo;</span>
-						  </a>
-						</li>
-					  </ul>
-					</nav>
-				</div>
 			</div>
 		</div>
 		

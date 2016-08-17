@@ -32,4 +32,10 @@
 
 .bottom-buffer { margin-bottom:15px; }
 
+.no-bottom-buffer { margin-bottom:0px; }
+
 .top-buffer { margin-top:15px; }
+
+.no-top-buffer { margin-top:0px; }
+
+.active { color:#337ab7; }
