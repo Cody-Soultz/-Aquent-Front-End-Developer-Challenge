@@ -110,10 +110,10 @@
 						</thead>
 						<tbody>
 							<span ng-repeat="person in data | filter:search | orderBy : ordering : reverse as filteredList">	
-								<tr ng-repeat="person in filteredList | limitTo:itemsPerPage:beginAt" ng-click="setSelected(person)" ng-class="{active: person.id===personSelected.id}" style="cursor:pointer">
-									<td>{{person.firstName + ' ' + person.surname}}</td>
-									<td>{{person.occupation}}</td>
-									<td>{{person.company}}</td>
+								<tr ng-repeat="person in filteredList | limitTo:itemsPerPage:beginAt" ng-click="setSelected(person)" style="cursor:pointer">
+									<td ng-class="{'bg-primary': person.id===personSelected.id}">{{person.firstName + ' ' + person.surname}}</td>
+									<td ng-class="{'bg-primary': person.id===personSelected.id}">{{person.occupation}}</td>
+									<td ng-class="{'bg-primary': person.id===personSelected.id}">{{person.company}}</td>
 								</tr>
 							</span>
 						</tbody>
