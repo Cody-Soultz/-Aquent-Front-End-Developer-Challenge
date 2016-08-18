@@ -22,7 +22,7 @@ app.controller('mainCtr', function(getterService,$scope) {
 	$scope.beginAt=0;
 	$scope.itemsPerPage=15;
 	$scope.filteredList=[{}];
-	$scope.filteredLength=0;
+	var filteredLength=0;
 	$scope.sorting="All";
 	$scope.page=[
 		{page:1,isActive:true,isHidden:false},
@@ -91,17 +91,16 @@ app.controller('mainCtr', function(getterService,$scope) {
 	};
 
 	$scope.next = function(){
-		var visiblePages=0;
 		for(i=0;i<$scope.page.length;i++){
-			if($scope.page[i].isActive&&$scope.page[i].page!==totalPages){
+			if($scope.page[i].isActive && $scope.page[i].page!==totalPages){
 				refreshPagination($scope.page[i].page+1);
 			}
 		}
 	};
 
 	$scope.previous = function(){
-		for(i=1;i<$scope.page.length;i++){
-			if($scope.page[i].isActive){
+		for(i=0;i<$scope.page.length;i++){
+			if($scope.page[i].isActive && $scope.page[i].page!=1){
 				refreshPagination($scope.page[i].page-1);
 			}
 		}
@@ -109,18 +108,17 @@ app.controller('mainCtr', function(getterService,$scope) {
 	
 	$scope.$watch('filteredList', function() {
 		if($scope.READY){
-			$scope.filteredLength=$scope.filteredList.length;
+			filteredLength=$scope.filteredList.length;
 			refreshPagination(1);
 		}
 	});
 	
 	$scope.pageClicked= function(theClickedPage){
-		console.log("The Clicked Page: " + theClickedPage.page)
 		refreshPagination(theClickedPage.page);
 	};
 	
 	refreshPagination=function(pageNumber){
-		totalPages=Math.floor($scope.filteredLength/$scope.itemsPerPage);
+		totalPages=Math.ceil(filteredLength/$scope.itemsPerPage);
 		$scope.page[6].page=totalPages;
 		$scope.page[1].isHidden=false;
 		$scope.page[2].isHidden=false;
@@ -167,6 +165,7 @@ app.controller('mainCtr', function(getterService,$scope) {
 			}
 		}
 		else{
+			$scope.leftVisible=false;
 			$scope.page[1].page=2;
 			$scope.page[2].page=3;
 			$scope.page[3].page=4;
@@ -181,6 +180,6 @@ app.controller('mainCtr', function(getterService,$scope) {
 				$scope.page[i].isActive=false;
 			}
 		}
-		$scope.beginAt=pageNumber*$scope.itemsPerPage;
+		$scope.beginAt=(pageNumber-1)*$scope.itemsPerPage;
 	}
 });
